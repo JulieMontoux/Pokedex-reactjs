@@ -59,10 +59,11 @@ const Pokemon = ({ pokemon, typesData, language }) => {
 const App = () => {
   const [pokemonList, setPokemonList] = useState([]);
   const [typesData, setTypesData] = useState([]);
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState('fr');
   const [filterType, setFilterType] = useState('all');
   const [filterGeneration, setFilterGeneration] = useState('all');
   const [sortBy, setSortBy] = useState('id');
+  const [sortOrder, setSortOrder] = useState('asc');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -100,6 +101,14 @@ const App = () => {
   };
 
   const handleSortChange = (newSortBy) => {
+    // Si le même critère est sélectionné, inverse l'ordre
+    if (newSortBy === sortBy) {
+      setSortOrder(order => (order === 'asc' ? 'desc' : 'asc'));
+    } else {
+      // Sinon, réinitialise l'ordre à ascendant
+      setSortOrder('asc');
+    }
+
     setSortBy(newSortBy);
   };
 
@@ -108,16 +117,16 @@ const App = () => {
 
     switch (sortBy) {
       case 'id':
-        sortedList.sort((a, b) => a.id - b.id);
+        sortedList.sort((a, b) => (sortOrder === 'asc' ? a.id - b.id : b.id - a.id));
         break;
       case 'name':
-        sortedList.sort((a, b) => a.name[language].localeCompare(b.name[language]));
+        sortedList.sort((a, b) => (sortOrder === 'asc' ? a.name[language].localeCompare(b.name[language]) : b.name[language].localeCompare(a.name[language])));
         break;
       case 'weight':
-        sortedList.sort((a, b) => a.weight - b.weight);
+        sortedList.sort((a, b) => (sortOrder === 'asc' ? a.weight - b.weight : b.weight - a.weight));
         break;
       case 'height':
-        sortedList.sort((a, b) => a.height - b.height);
+        sortedList.sort((a, b) => (sortOrder === 'asc' ? a.height - b.height : b.height - a.height));
         break;
       default:
         break;
@@ -147,19 +156,38 @@ const App = () => {
       <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px'}}>Pokédex - Julie Montoux</h1>
       <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline'}}>Projet React</p>
       <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-        <label style={{ marginRight: '10px' }}>
-          Sort By:
+        <label>
+          <input
+            type="radio"
+            id="ascending"
+            name="sortOrder"
+            value="asc"
+            checked={sortOrder === 'asc'}
+            onChange={() => setSortOrder('asc')}
+            />
+            <label htmlFor="ascending">&uarr;</label>
+            <input
+              type="radio"
+              id="descending"
+              name="sortOrder"
+              value="desc"
+              checked={sortOrder === 'desc'}
+              onChange={() => setSortOrder('desc')}
+            />
+            <label htmlFor="descending">&darr;</label>
+         </label>
+        <label style={{ marginRight: '10px', marginLeft: '10px'}}>
           <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)}>
             <option value="id">ID</option>
             <option value="name">Name</option>
             <option value="weight">Weight</option>
             <option value="height">Height</option>
           </select>
+
         </label>
         <label>
-          Filter Generation:
           <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)}>
-            <option value="all">All</option>
+            <option value="all">Generation</option>
             {Array.from({ length: 8 }, (_, i) => i + 1).map(generation => (
               <option key={generation} value={generation}>
                 Generation {generation}
@@ -168,9 +196,8 @@ const App = () => {
           </select>
         </label>
         <label>
-          Filter Type:
           <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)}>
-            <option value="all">All</option>
+            <option value="all">Type</option>
             {typesData.map(type => (
               <option key={type.id} value={type.id}>
                 {type.name[language]}
