@@ -46,6 +46,7 @@ const Pokemon = ({ pokemon, typesData, language }) => {
       <div style={contentStyle}>
         <h2 style={h2Style}>{pokemon.name[language]}</h2>
         <p style={pStyle}>ID: {pokemon.id}</p>
+        <p style={pStyle}>Generation: {pokemon.generation}</p>
         <p style={pStyle}>
           Type(s): {pokemon.types.map((typeId, index) => (
             <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
