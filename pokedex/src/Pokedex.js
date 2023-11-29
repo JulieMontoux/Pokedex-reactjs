@@ -1,25 +1,23 @@
-// App.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Pokemon = ({ pokemon }) => {
   const cardStyle = {
-    flexWrap: 'wrap', 
-    backgroundColor: '#fff',
+    flexWrap: 'wrap',
+    backgroundColor: '#FFA10A', // Jaune vif
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     marginBottom: '20px',
     overflow: 'hidden',
     display: 'grid',
     width: '25em',
-
   };
 
   const imageStyle = {
-    width: '50%',
+    width: '100%',
     height: 'auto',
     borderBottom: '1px solid #ddd',
+    borderRadius: '8px 8px 0 0', // Coins plus arrondis en haut
   };
 
   const contentStyle = {
@@ -28,10 +26,13 @@ const Pokemon = ({ pokemon }) => {
 
   const h2Style = {
     marginTop: '0',
+    color: '#fff', 
+    textAlign: 'center',
   };
 
   const pStyle = {
     marginBottom: '10px',
+    color: '#333', // Texte plus foncé
   };
 
   return (
@@ -81,11 +82,14 @@ const App = () => {
   }
 
   return (
-      <><h1 style={{textAlign: 'center', color: 'red', fontSize: '900', fontSize: 'xx-large', fontWeight: '900',}}>Pokédex</h1><div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-          {pokemonList.map(pokemon => (
-              <Pokemon key={pokemon.id} pokemon={pokemon} />
-          ))}
-      </div></>
+    <>
+      <h1 style={{ textAlign: 'center', color: '#e53935', fontSize: 'xx-large', fontWeight: '900' }}>Pokédex</h1>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+        {pokemonList.map(pokemon => (
+          <Pokemon key={pokemon.id} pokemon={pokemon} />
+        ))}
+      </div>
+    </>
   );
 };
 
