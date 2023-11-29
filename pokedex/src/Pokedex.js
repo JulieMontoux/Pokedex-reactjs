@@ -42,7 +42,7 @@ const Pokemon = ({ pokemon, typesData, language }) => {
 
   return (
     <div style={cardStyle}>
-      <img src={pokemon.image} alt={`${pokemon.name.en} sprite`} style={imageStyle} />
+      <img src={pokemon.image} alt={`${pokemon.name[language]} sprite`} style={imageStyle} />
       <div style={contentStyle}>
         <h2 style={h2Style}>{pokemon.name[language]}</h2>
         <p style={pStyle}>ID: {pokemon.id}</p>
@@ -64,6 +64,7 @@ const App = () => {
   const [filterGeneration, setFilterGeneration] = useState('all');
   const [sortBy, setSortBy] = useState('id');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [searchValue, setSearchValue] = useState('');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ const App = () => {
           },
         });
 
-        const typesResponse = await axios.get('https://pokedex-api.3rgo.tech/api/types'); 
+        const typesResponse = await axios.get('https://pokedex-api.3rgo.tech/api/types');
         setPokemonList(pokemonResponse.data.data);
         setTypesData(typesResponse.data.data);
       } catch (error) {
@@ -112,6 +113,10 @@ const App = () => {
     setSortBy(newSortBy);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
   const getSortedPokemonList = () => {
     let sortedList = [...pokemonList];
 
@@ -137,7 +142,9 @@ const App = () => {
 
   const filteredPokemonList = getSortedPokemonList()
     .filter(pokemon => (filterType === 'all' || pokemon.types.includes(parseInt(filterType)))
-      && (filterGeneration === 'all' || pokemon.generation === parseInt(filterGeneration)));
+      && (filterGeneration === 'all' || pokemon.generation === parseInt(filterGeneration))
+      && pokemon.name[language].toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   if (error) {
     return <p>Error loading data. Please check the console for details.</p>;
@@ -149,12 +156,12 @@ const App = () => {
 
   return (
     <>
-      <div style={{ marginTop: '20px', textAlign: 'right', marginRight: '100px'}}>
-        <img src="https://cdn-icons-png.flaticon.com/128/8363/8363075.png" alt="English flag" onClick={() => handleLanguageChange('en')} style={{ marginRight: '10px', width: '30px' }}/>
-        <img src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png" alt="French flag" onClick={() => handleLanguageChange('fr')} style={{ marginRight: '10px', width: '30px' }}/>
+      <div style={{ marginTop: '20px', textAlign: 'right', marginRight: '100px' }}>
+        <img src="https://cdn-icons-png.flaticon.com/128/8363/8363075.png" alt="English flag" onClick={() => handleLanguageChange('en')} style={{ marginRight: '10px', width: '30px' }} />
+        <img src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png" alt="French flag" onClick={() => handleLanguageChange('fr')} style={{ marginRight: '10px', width: '30px' }} />
       </div>
-      <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px'}}>Pokédex - Julie Montoux</h1>
-      <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline'}}>Projet React</p>
+      <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px' }}>Pokédex - Julie Montoux</h1>
+      <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline' }}>Projet React</p>
       <div style={{ marginBottom: '20px', textAlign: 'center' }}>
         <label>
           <input
@@ -164,38 +171,37 @@ const App = () => {
             value="asc"
             checked={sortOrder === 'asc'}
             onChange={() => setSortOrder('asc')}
-            />
-            <label htmlFor="ascending">&uarr;</label>
-            <input
-              type="radio"
-              id="descending"
-              name="sortOrder"
-              value="desc"
-              checked={sortOrder === 'desc'}
-              onChange={() => setSortOrder('desc')}
-            />
-            <label htmlFor="descending">&darr;</label>
-         </label>
-        <label style={{ marginRight: '10px', marginLeft: '10px'}}>
+          />
+          <label htmlFor="ascending">&uarr;</label>
+          <input
+            type="radio"
+            id="descending"
+            name="sortOrder"
+            value="desc"
+            checked={sortOrder === 'desc'}
+            onChange={() => setSortOrder('desc')}
+          />
+          <label htmlFor="descending">&darr;</label>
+        </label>
+        <label style={{ marginRight: '10px', marginLeft: '10px' }}>
           <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)}>
             <option value="id">ID</option>
             <option value="name">Name</option>
             <option value="weight">Weight</option>
             <option value="height">Height</option>
           </select>
-
         </label>
-        <label>
+        <label style={{ marginRight: '10px' }}>
           <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)}>
             <option value="all">Generation</option>
-            {Array.from({ length: 8 }, (_, i) => i + 1).map(generation => (
+            {Array.from({ length: 9 }, (_, i) => i + 1).map(generation => (
               <option key={generation} value={generation}>
                 Generation {generation}
               </option>
             ))}
           </select>
         </label>
-        <label>
+        <label style={{ marginRight: '10px' }}>
           <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)}>
             <option value="all">Type</option>
             {typesData.map(type => (
@@ -204,6 +210,12 @@ const App = () => {
               </option>
             ))}
           </select>
+        </label>
+      </div>
+      <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+        <label>
+          &#x1F50D;
+          <input type="text" value={searchValue} onChange={handleSearchChange} />
         </label>
       </div>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
