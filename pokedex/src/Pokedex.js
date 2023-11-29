@@ -46,7 +46,6 @@ const Pokemon = ({ pokemon, typesData, language }) => {
       <div style={contentStyle}>
         <h2 style={h2Style}>{pokemon.name[language]}</h2>
         <p style={pStyle}>ID: {pokemon.id}</p>
-        <p style={pStyle}>Generation: {pokemon.generation}</p>
         <p style={pStyle}>
           Type(s): {pokemon.types.map((typeId, index) => (
             <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
@@ -63,6 +62,7 @@ const App = () => {
   const [language, setLanguage] = useState('en');
   const [filterType, setFilterType] = useState('all');
   const [filterGeneration, setFilterGeneration] = useState('all');
+  const [sortBy, setSortBy] = useState('id');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -99,7 +99,34 @@ const App = () => {
     setFilterGeneration(newFilterGeneration);
   };
 
-  const filteredPokemonList = pokemonList
+  const handleSortChange = (newSortBy) => {
+    setSortBy(newSortBy);
+  };
+
+  const getSortedPokemonList = () => {
+    let sortedList = [...pokemonList];
+
+    switch (sortBy) {
+      case 'id':
+        sortedList.sort((a, b) => a.id - b.id);
+        break;
+      case 'name':
+        sortedList.sort((a, b) => a.name[language].localeCompare(b.name[language]));
+        break;
+      case 'weight':
+        sortedList.sort((a, b) => a.weight - b.weight);
+        break;
+      case 'height':
+        sortedList.sort((a, b) => a.height - b.height);
+        break;
+      default:
+        break;
+    }
+
+    return sortedList;
+  };
+
+  const filteredPokemonList = getSortedPokemonList()
     .filter(pokemon => (filterType === 'all' || pokemon.types.includes(parseInt(filterType)))
       && (filterGeneration === 'all' || pokemon.generation === parseInt(filterGeneration)));
 
@@ -120,11 +147,20 @@ const App = () => {
       <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px'}}>Pokédex - Julie Montoux</h1>
       <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline'}}>Projet React</p>
       <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-        <label style={{ marginRight: '20px' }}>
-          Generation:
+        <label style={{ marginRight: '10px' }}>
+          Sort By:
+          <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)}>
+            <option value="id">ID</option>
+            <option value="name">Name</option>
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+          </select>
+        </label>
+        <label>
+          Filter Generation:
           <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)}>
-            <option value="all"></option>
-            {Array.from({ length: 9}, (_, i) => i + 1).map(generation => (
+            <option value="all">All</option>
+            {Array.from({ length: 8 }, (_, i) => i + 1).map(generation => (
               <option key={generation} value={generation}>
                 Generation {generation}
               </option>
@@ -132,9 +168,9 @@ const App = () => {
           </select>
         </label>
         <label>
-          Type:
+          Filter Type:
           <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)}>
-            <option value="all"></option>
+            <option value="all">All</option>
             {typesData.map(type => (
               <option key={type.id} value={type.id}>
                 {type.name[language]}
