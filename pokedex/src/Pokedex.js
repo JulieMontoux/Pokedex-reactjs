@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Pokemon = ({ pokemon }) => {
+const Pokemon = ({ pokemon, typesData }) => {
   const cardStyle = {
     flexWrap: 'wrap',
-    backgroundColor: '#FFA10A', // Jaune vif
+    backgroundColor: '#FFA10A',
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     marginBottom: '20px',
@@ -17,7 +17,7 @@ const Pokemon = ({ pokemon }) => {
     width: '100%',
     height: 'auto',
     borderBottom: '1px solid #ddd',
-    borderRadius: '8px 8px 0 0', // Coins plus arrondis en haut
+    borderRadius: '8px 8px 0 0',
   };
 
   const contentStyle = {
@@ -26,23 +26,31 @@ const Pokemon = ({ pokemon }) => {
 
   const h2Style = {
     marginTop: '0',
-    color: '#fff', 
+    color: '#fff',
     textAlign: 'center',
   };
 
   const pStyle = {
     marginBottom: '10px',
-    color: '#333', // Texte plus foncé
+    color: '#333',
+  };
+
+  const getTypeName = (typeId) => {
+    const type = typesData.find(type => type.id === typeId);
+    return type ? type.name.fr : 'Inconnu';
   };
 
   return (
     <div style={cardStyle}>
       <img src={pokemon.image} alt={`${pokemon.name.en} sprite`} style={imageStyle} />
       <div style={contentStyle}>
-        <h2 style={h2Style}>{pokemon.name.en} ({pokemon.name.fr})</h2>
+        <h2 style={h2Style}>{pokemon.name.fr}</h2>
         <p style={pStyle}>ID: {pokemon.id}</p>
-        <p style={pStyle}>Generation: {pokemon.generation}</p>
-        {/* Ajoutez le reste de l'affichage des données du Pokémon selon vos besoins */}
+        <p style={pStyle}>
+          Type(s): {pokemon.types.map((typeId, index) => (
+            <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
+          ))}
+        </p>
       </div>
     </div>
   );
@@ -50,22 +58,24 @@ const Pokemon = ({ pokemon }) => {
 
 const App = () => {
   const [pokemonList, setPokemonList] = useState([]);
+  const [typesData, setTypesData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios({
-          method: 'GET',
-          url: 'https://pokedex-api.3rgo.tech/api/pokemon',
+        const pokemonResponse = await axios.get('https://pokedex-api.3rgo.tech/api/pokemon', {
           headers: {
             'accept': '*/*',
             'X-CSRF-TOKEN': '',
           },
         });
-        setPokemonList(response.data.data);
+
+        const typesResponse = await axios.get('https://pokedex-api.3rgo.tech/api/types'); 
+        setPokemonList(pokemonResponse.data.data);
+        setTypesData(typesResponse.data.data);
       } catch (error) {
-        console.error('Error fetching Pokemon data:', error);
+        console.error('Error fetching data:', error);
         setError(error);
       }
     };
@@ -74,10 +84,10 @@ const App = () => {
   }, []);
 
   if (error) {
-    return <p>Error loading Pokemon data. Please check the console for details.</p>;
+    return <p>Error loading data. Please check the console for details.</p>;
   }
 
-  if (!pokemonList || pokemonList.length === 0) {
+  if (!pokemonList || pokemonList.length === 0 || !typesData) {
     return <p>Loading...</p>;
   }
 
@@ -86,7 +96,7 @@ const App = () => {
       <h1 style={{ textAlign: 'center', color: '#e53935', fontSize: 'xx-large', fontWeight: '900' }}>Pokédex</h1>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
         {pokemonList.map(pokemon => (
-          <Pokemon key={pokemon.id} pokemon={pokemon} />
+          <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} />
         ))}
       </div>
     </>
