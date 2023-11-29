@@ -46,6 +46,7 @@ const Pokemon = ({ pokemon, typesData, language }) => {
       <div style={contentStyle}>
         <h2 style={h2Style}>{pokemon.name[language]}</h2>
         <p style={pStyle}>ID: {pokemon.id}</p>
+        <p style={pStyle}>Generation: {pokemon.generation}</p>
         <p style={pStyle}>
           Type(s): {pokemon.types.map((typeId, index) => (
             <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
@@ -59,7 +60,9 @@ const Pokemon = ({ pokemon, typesData, language }) => {
 const App = () => {
   const [pokemonList, setPokemonList] = useState([]);
   const [typesData, setTypesData] = useState([]);
-  const [language, setLanguage] = useState('en'); // Par défaut en anglais
+  const [language, setLanguage] = useState('en');
+  const [filterType, setFilterType] = useState('all');
+  const [filterGeneration, setFilterGeneration] = useState('all');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -88,6 +91,18 @@ const App = () => {
     setLanguage(newLanguage);
   };
 
+  const handleTypeFilterChange = (newFilterType) => {
+    setFilterType(newFilterType);
+  };
+
+  const handleGenerationFilterChange = (newFilterGeneration) => {
+    setFilterGeneration(newFilterGeneration);
+  };
+
+  const filteredPokemonList = pokemonList
+    .filter(pokemon => (filterType === 'all' || pokemon.types.includes(parseInt(filterType)))
+      && (filterGeneration === 'all' || pokemon.generation === parseInt(filterGeneration)));
+
   if (error) {
     return <p>Error loading data. Please check the console for details.</p>;
   }
@@ -104,8 +119,32 @@ const App = () => {
       </div>
       <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px'}}>Pokédex - Julie Montoux</h1>
       <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline'}}>Projet React</p>
+      <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+        <label style={{ marginRight: '20px' }}>
+          Generation:
+          <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)}>
+            <option value="all"></option>
+            {Array.from({ length: 9}, (_, i) => i + 1).map(generation => (
+              <option key={generation} value={generation}>
+                Generation {generation}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Type:
+          <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)}>
+            <option value="all"></option>
+            {typesData.map(type => (
+              <option key={type.id} value={type.id}>
+                {type.name[language]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-        {pokemonList.map(pokemon => (
+        {filteredPokemonList.map(pokemon => (
           <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} language={language} />
         ))}
       </div>
