@@ -1,40 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Pokedex.css';
 
 // Accueil
 const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
-  const cardStyle = {
-    flexWrap: 'wrap',
-    backgroundColor: '#FFA10A',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    overflow: 'hidden',
-    display: 'grid',
-    width: '25em',
-    cursor: 'pointer',
-  };
-
-  const imageStyle = {
-    width: '100%',
-    height: 'auto',
-    borderBottom: '1px solid #ddd',
-    borderRadius: '8px 8px 0 0',
-  };
-
-  const contentStyle = {
-    padding: '20px',
-  };
-
-  const h2Style = {
-    marginTop: '0',
-    color: '#fff',
-    textAlign: 'center',
-  };
-
-  const pStyle = {
-    marginBottom: '10px',
-    color: '#333',
-  };
 
   const handleClick = () => {
     onSelect(pokemon);
@@ -46,13 +15,13 @@ const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
   };
 
   return (
-    <div style={cardStyle} onClick={handleClick}>
-      <img src={pokemon.image} alt={`${pokemon.name[language]} sprite`} style={imageStyle} />
-      <div style={contentStyle}>
-        <h2 style={h2Style}>{pokemon.name[language]}</h2>
-        <p style={pStyle}>ID: {pokemon.id}</p>
-        <p style={pStyle}>Generation: {pokemon.generation}</p>
-        <p style={pStyle}>
+    <div className='card' onClick={handleClick}>
+      <img src={pokemon.image} alt={`${pokemon.name[language]} sprite`} className='image' />
+      <div className='content'>
+        <h2>{pokemon.name[language]}</h2>
+        <p>ID: {pokemon.id}</p>
+        <p>Generation: {pokemon.generation}</p>
+        <p>
           Type(s): {pokemon.types.map((typeId, index) => (
             <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
           ))}
@@ -64,67 +33,6 @@ const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
 
 // Fiche
 const PokemonDetail = ({ pokemon, typesData, language }) => {
-  const detailStyle = {
-    backgroundColor: '#FFA10A',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    overflow: 'hidden',
-    display: 'grid',
-    width: '25em',
-    margin: '0 auto',
-    marginTop: '20px',
-  };
-
-  const imageStyle = {
-    width: '100%',
-    height: 'auto',
-    borderBottom: '1px solid #ddd',
-    borderRadius: '8px 8px 0 0',
-  };
-
-  const contentStyle = {
-    padding: '20px',
-  };
-
-  const h2Style = {
-    marginTop: '0',
-    color: '#fff',
-    textAlign: 'center',
-  };
-
-  const pStyle = {
-    marginBottom: '10px',
-    color: '#333',
-  };
-
-  const statsStyle = {
-    marginTop: '20px',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '10px',
-  };
-
-  const statColumnStyle = {
-    display: 'inline-grid',
-    gap: '5px',
-  };
-  
-  const statLabelStyle = {
-    fontWeight: 'bold',
-    marginTop: '15px',
-  };
-
-  const statValueStyle = {
-    textAlign: 'right',
-    margin: '0',
-  };
-
-  const gaugeContainerStyle = {
-    height: '10px',
-    backgroundColor: '#ddd',
-    borderRadius: '5px',
-    overflow: 'hidden',
-  };
 
   const gaugeStyle = (value) => ({
     height: '100%',
@@ -133,40 +41,39 @@ const PokemonDetail = ({ pokemon, typesData, language }) => {
     borderRadius: '5px',
   });
 
-
   const getTypeName = (typeId) => {
     const type = typesData.find(type => type.id === typeId);
     return type ? type.name[language] : 'Inconnu';
   };
 
   return (
-    <div style={detailStyle}>
-      <img src={pokemon.image} alt={`${pokemon.name[language]} sprite`} style={imageStyle} />
-      <div style={contentStyle}>
-        <h2 style={h2Style}>{pokemon.name[language]}</h2>
-        <p style={pStyle}>ID: {pokemon.id}</p>
-        <p style={pStyle}>Generation: {pokemon.generation}</p>
-        <p style={pStyle}>
+    <div className='detail'>
+      <img src={pokemon.image} alt={`${pokemon.name[language]} sprite`} className='image' />
+      <div className='content'>
+        <h2>{pokemon.name[language]}</h2>
+        <p>ID: {pokemon.id}</p>
+        <p>Generation: {pokemon.generation}</p>
+        <p>
           Type(s): {pokemon.types.map((typeId, index) => (
             <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
           ))}
         </p>
-        <p style={pStyle}>Height: {pokemon.height}</p>
-        <p style={pStyle}>Weight: {pokemon.weight}</p>
-        <div style={statsStyle}>
-        <div style={statColumnStyle}>
-          <p style={statLabelStyle}>HP</p>
-          <p style={statLabelStyle}>ATK</p>
-          <p style={statLabelStyle}>DEF</p>
-          <p style={statLabelStyle}>VIT</p>
-          <p style={statLabelStyle}>Spe. ATK</p>
-          <p style={statLabelStyle}>Spe. DEF</p>
+        <p>Height: {pokemon.height}</p>
+        <p>Weight: {pokemon.weight}</p>
+        <div className='stats'>
+        <div className='stat-column'>
+          <p className='stat-label'>HP</p>
+          <p className='stat-label'>ATK</p>
+          <p className='stat-label'>DEF</p>
+          <p className='stat-label'>VIT</p>
+          <p className='stat-label'>Spe. ATK</p>
+          <p className='stat-label'>Spe. DEF</p>
         </div>
-        <div style={statColumnStyle}>
+        <div className='stat-column'>
           {Object.entries(pokemon.stats).map(([statName, statValue]) => (
             <div key={statName}>
-              <p style={statValueStyle}>{statValue}</p>
-              <div style={gaugeContainerStyle}>
+              <p className='stat-value'>{statValue}</p>
+              <div className='gauge-container'>
                 <div style={gaugeStyle(statValue)}></div>
               </div>
             </div>
