@@ -1,0 +1,40 @@
+.detail {
+    background-color: #ffa10a;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: grid;
+    width: 25em;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  
+  .stats {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .stat-column {
+    display: inline-grid;
+    gap: 5px;
+  }
+  
+  .stat-label {
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  
+  .stat-value {
+    text-align: right;
+    margin: 0;
+  }
+  
+  .gauge-container {
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
