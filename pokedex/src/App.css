@@ -34,4 +34,130 @@
       transform: translate(-50%, -50%) scale(1);
     }
   }
+  body {
+    background-color: #FFCB05;
+  }
+  
+  .pokeball-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .pokeball {
+    position: absolute;
+    top: calc(50% - 150px);
+    left: calc(50% - 150px);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    transform-origin: 50% 50%;
+    animation: wobble 5s infinite, zoomOut 0.5s 1 alternate forwards 6s;
+  }
+  
+  .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to right, crimson, darkred);
+  }
+  
+  .middle {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: black;
+    transform: translateY(-50%);
+  }
+  
+  .middle::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .middle::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to right, white, lightgray);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to right, white, lightgray);
+  }
+  
+  .shadow {
+    position: absolute;
+    top: calc(50% + 150px);
+    left: 50%;
+    width: 300px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    filter: blur(10px);
+    transform: translate(-50%, -50%);
+    animation: fadeOutShadow 0.5s forwards 6s;
+  }
+  
+  @keyframes wobble {
+    0%, 20%, 24%, 28%, 80%, 84%, 88%, 92%, 96%, 100% {
+      transform: rotate(0deg);
+    }
+  
+    22%, 82%, 90% {
+      transform: rotate(4deg);
+    }
+  
+    26%, 86%, 94% {
+      transform: rotate(-4deg);
+    }
+  }
+  
+  @keyframes zoomOut {
+    from {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  
+    to {
+      transform: scale(0) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fadeOutShadow {
+    to {
+      opacity: 0;
+    }
+  }
+
+  .centered-logo {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    max-width: 400px; 
+    margin-bottom: 10px;
+  }
   

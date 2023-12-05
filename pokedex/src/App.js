@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pokemon from './Pokedex.js';
 import PokemonDetail from './PokemonDetail.js';
+import './App.css';
+import logoImage from './images/logoPokedex.png';
 
 const App = () => {
   const [pokemonList, setPokemonList] = useState([]);
@@ -105,7 +107,16 @@ const App = () => {
   }
 
   if (!pokemonList || pokemonList.length === 0 || !typesData) {
-    return <p>Loading...</p>;
+    return (
+      <>
+      <div class="shadow"></div>
+        <div class="pokeball">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="middle"></div>
+      </div>
+      </>
+    );
   }
 
   if (selectedPokemon) {
@@ -123,7 +134,8 @@ const App = () => {
         <img src="https://cdn-icons-png.flaticon.com/128/8363/8363075.png" alt="English flag" onClick={() => handleLanguageChange('en')} style={{ marginRight: '10px', width: '30px' }} />
         <img src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png" alt="French flag" onClick={() => handleLanguageChange('fr')} style={{ marginRight: '10px', width: '30px' }} />
       </div>
-      <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px' }}>Pokédex - Julie Montoux</h1>
+      <img src={logoImage} alt="Logo" className="centered-logo" />
+      <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px' }}>Julie Montoux</h1>
       <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline' }}>Projet React</p>
       <div style={{ marginBottom: '20px', textAlign: 'center' }}>
         <label>
