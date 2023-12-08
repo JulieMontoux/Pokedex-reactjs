@@ -1,11 +1,11 @@
 .card {
   flex-wrap: wrap;
-  background-color: #ccc;
+  background-color: #ebebeb;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: grid;
-  width: 25em;
+  width: 15em;
   cursor: pointer;
 }
 
@@ -29,4 +29,16 @@ h2 {
 p {
   margin-bottom: 10px;
   color: #333;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+  .card {
+    width: 100%; /* Adjusted width for smaller screens */
+    border-radius: 0;
+  }
+
+  .image {
+    border-radius: 0;
+  }
 }

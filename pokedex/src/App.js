@@ -193,11 +193,12 @@ const App = () => {
           <input type="text" value={searchValue} onChange={handleSearchChange} />
         </label>
       </div>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '10px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-        {filteredPokemonList.map(pokemon => (
-          <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} language={language} onSelect={handlePokemonClick} />
-        ))}
-      </div>
+      <div style={{ margin: '0 15px', padding: '10px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '10px'}}>
+  {filteredPokemonList.map(pokemon => (
+    <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} language={language} onSelect={handlePokemonClick} />
+  ))}
+</div>
+
     </>
   );
 };

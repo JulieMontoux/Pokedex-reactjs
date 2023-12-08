@@ -1,12 +1,12 @@
 .detail {
-  background-color: #ccc;
+  background-color: #ebebeb;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  width: 100%;
+  width: 80%;
   margin: 0 auto;
   margin-top: 20px;
 }
