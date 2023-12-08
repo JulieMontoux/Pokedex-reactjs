@@ -7,9 +7,9 @@ const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
     onSelect(pokemon);
   };
 
-  const getTypeName = (typeId) => {
+  const getTypeInfo = (typeId) => {
     const type = typesData.find(type => type.id === typeId);
-    return type ? type.name[language] : 'Inconnu';
+    return type ? { name: type.name[language], image: type.image } : { name: 'Inconnu', image: 'url_de_l_image_par_defaut' };
   };
 
   return (
@@ -21,7 +21,9 @@ const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
         <p>Generation: {pokemon.generation}</p>
         <p>
           {pokemon.types.map((typeId, index) => (
-            <span key={index}>{getTypeName(typeId)}{index < pokemon.types.length - 1 ? ', ' : ''}</span>
+            <span key={index} className="type-icon">
+              <img src={getTypeInfo(typeId).image} alt={`${getTypeInfo(typeId).name} type`} />
+            </span>
           ))}
         </p>
       </div>
