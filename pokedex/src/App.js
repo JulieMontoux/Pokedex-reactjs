@@ -109,12 +109,12 @@ const App = () => {
   if (!pokemonList || pokemonList.length === 0 || !typesData) {
     return (
       <>
-      <div class="shadow"></div>
-        <div class="pokeball">
-        <div class="top"></div>
-        <div class="bottom"></div>
-        <div class="middle"></div>
-      </div>
+        <div className="shadow"></div>
+        <div className="pokeball">
+          <div className="top"></div>
+          <div className="bottom"></div>
+          <div className="middle"></div>
+        </div>
       </>
     );
   }
@@ -135,9 +135,9 @@ const App = () => {
         <img src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png" alt="French flag" onClick={() => handleLanguageChange('fr')} style={{ marginRight: '10px', width: '30px' }} />
       </div>
       <img src={logoImage} alt="Logo" className="centered-logo" />
-      <h1 style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px' }}>Julie Montoux</h1>
-      <p style={{ textAlign: 'center', color: '#e53935', marginTop: '-20px', textDecoration: 'underline' }}>Projet React</p>
-      <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+      <h1 className="app-title">Julie Montoux</h1>
+      <p className="app-subtitle">Projet React</p>
+      <div className="filter-section">
         <label>
           <input
             type="radio"
@@ -158,7 +158,7 @@ const App = () => {
           />
           <label htmlFor="descending">&darr;</label>
         </label>
-        <label style={{ marginRight: '10px', marginLeft: '10px' }}>
+        <label className="sort-label">
           <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)}>
             <option value="id">ID</option>
             <option value="name">Name</option>
@@ -166,7 +166,7 @@ const App = () => {
             <option value="height">Height</option>
           </select>
         </label>
-        <label style={{ marginRight: '10px' }}>
+        <label className="filter-label">
           <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)}>
             <option value="all">Generation</option>
             {Array.from({ length: 9 }, (_, i) => i + 1).map(generation => (
@@ -176,7 +176,7 @@ const App = () => {
             ))}
           </select>
         </label>
-        <label style={{ marginRight: '10px' }}>
+        <label className="filter-label">
           <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)}>
             <option value="all">Type</option>
             {typesData.map(type => (
@@ -187,18 +187,15 @@ const App = () => {
           </select>
         </label>
       </div>
-      <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-        <label>
-          &#x1F50D;
-          <input type="text" value={searchValue} onChange={handleSearchChange} />
-        </label>
+      <div className="search-section">
+        <label className="search-icon">&#x1F50D;</label>
+        <input type="text" value={searchValue} onChange={handleSearchChange} />
       </div>
-      <div style={{ margin: '0 15px', padding: '10px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '10px'}}>
-  {filteredPokemonList.map(pokemon => (
-    <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} language={language} onSelect={handlePokemonClick} />
-  ))}
-</div>
-
+      <div className="app-container">
+        {filteredPokemonList.map(pokemon => (
+          <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} language={language} onSelect={handlePokemonClick} />
+        ))}
+      </div>
     </>
   );
 };

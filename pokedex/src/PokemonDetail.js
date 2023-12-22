@@ -1,8 +1,16 @@
-import React from "react";
-import "./App";
+import React, { useState } from "react";
+import "./App.css";
 import "./PokemonDetail.css";
 
-const PokemonDetail = ({ pokemon, typesData, language }) => {
+const PokemonDetail = ({ pokemon, typesData, evolutionData, language }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [pokemon.image, pokemon.image_shiny];
+
+  const handleImageChange = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
   const gaugeStyle = (value) => ({
     height: "100%",
     width: `${(value / 150) * 100}%`,
@@ -15,13 +23,25 @@ const PokemonDetail = ({ pokemon, typesData, language }) => {
     return type ? type.name[language] : "Inconnu";
   };
 
+  const getPokemonNameById = (id) => {
+    const pokemonData = evolutionData ? evolutionData.find((pokemon) => pokemon.id === id) : null;
+    return pokemonData ? pokemonData.name[language] : "Inconnu";
+  };
+  
+
+  console.log("pokemon:", pokemon);
+  console.log("evolutionData:", evolutionData);
+
   return (
     <div className="detail">
-      <img
-        src={pokemon.image}
-        alt={`${pokemon.name[language]} sprite`}
-        className="image"
-      />
+      <div>
+        <img
+          src={images[currentImageIndex]}
+          alt={`${pokemon.name[language]} sprite`}
+          className={`image-carrousel ${currentImageIndex === 1 ? 'rotate' : ''}`}
+          onClick={handleImageChange}
+        />
+      </div>
       <div className="content">
         <h2>{pokemon.name[language]}</h2>
         <p>ID: {pokemon.id}</p>
@@ -50,6 +70,53 @@ const PokemonDetail = ({ pokemon, typesData, language }) => {
             ))}
           </div>
         </div>
+        {(pokemon.evolvesTo || pokemon.evolvesFrom) && (
+          <div className="evolution">
+            <h3>Évolution</h3>
+            {pokemon.evolvesTo && (
+              <div>
+                <h4>Évolution vers l'avant</h4>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Pokémon</th>
+                      <th>Méthode</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(pokemon.evolvesTo).map(([evolutionId, method], index) => (
+                      <tr key={index}>
+                        <td>{getPokemonNameById(evolutionId)}</td>
+                        <td>{method}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {pokemon.evolvesFrom && (
+              <div>
+                <h4>Évolution vers l'arrière</h4>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Pokémon</th>
+                      <th>Méthode</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(pokemon.evolvesFrom).map(([evolutionId, method], index) => (
+                      <tr key={index}>
+                        <td>{getPokemonNameById(evolutionId)}</td>
+                        <td>{method}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
