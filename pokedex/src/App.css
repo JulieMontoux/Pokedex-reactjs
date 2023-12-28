@@ -1,15 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .app {
     position: relative;
   }
-/* 
+
 .app-container {
   vertical-align:middle;
   display: grid;
   grid-template-columns: repeat(4, 25%);
-} */
+} 
 
   
-  .animation-container {
+   .animation-container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -171,27 +174,27 @@
   /* Container principal */
 .app-container {
   display: grid;
-  gap: 20px; /* Espace entre les colonnes */
-  padding: 20px; /* Marge intérieure pour le container principal */
-}
+  gap: 20px; 
+  padding: 20px; 
+} 
 
 /* Media Query pour les écrans larges */
 @media (min-width: 1200px) {
   .app-container {
-    grid-template-columns: repeat(4, 1fr); /* Quatre colonnes pour les écrans larges */
+    grid-template-columns: repeat(4, 1fr); 
   }
-}
+} 
 
 /* Media Query pour les écrans moyens */
-@media (max-width: 1199px) and (min-width: 769px) {
+ @media (max-width: 1199px) and (min-width: 769px) {
   .app-container {
-    grid-template-columns: repeat(3, 1fr); /* Trois colonnes pour les écrans moyens */
+    grid-template-columns: repeat(3, 1fr); 
   }
-}
+} 
 
 /* Media Query pour les écrans plus petits */
-@media (max-width: 768px) {
+ @media (max-width: 768px) {
   .app-container {
-    grid-template-columns: repeat(2, 1fr); /* Deux colonnes pour les écrans plus petits */
-  }
-}
+    grid-template-columns: repeat(2, 1fr); 
+} 
+ }

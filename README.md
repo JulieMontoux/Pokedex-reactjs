@@ -31,11 +31,11 @@ Accueil :
         [x] Poids
         [x] Taille
 
-    Recherche par nom (au fur et à mesure que l’utilisateur saisit, la liste est filtrée avec les pokémons dont le nom contient le texte saisi)
+    [x] Recherche par nom (au fur et à mesure que l’utilisateur saisit, la liste est filtrée avec les pokémons dont le nom contient le texte saisi)
 
 Fiche individuelle :
 
-    [en cours] Bouton de retour à la liste
+    [x] Bouton de retour à la liste
 
     Affichage des informations :
         [x] Numéro
@@ -53,5 +53,5 @@ Fiche individuelle :
 
 Divers :
 
-    [x] Possibilité de changer la langue de l’application (Français/Anglais)
+    [en cours] Possibilité de changer la langue de l’application (Français/Anglais) (reste à faire changer les boutons et les tris)
     [x] Interface responsive

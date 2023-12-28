@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pokemon from './Pokedex.js';
 import PokemonDetail from './PokemonDetail.js';
-import './App.css';
-import logoImage from './images/logoPokedex.png';
+import "tailwindcss/tailwind.css";
+import "./App.css";
+
 
 const App = () => {
   const [pokemonList, setPokemonList] = useState([]);
@@ -38,7 +39,7 @@ const App = () => {
 
     fetchData();
   }, []);
-
+  
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
   };
@@ -121,8 +122,12 @@ const App = () => {
 
   if (selectedPokemon) {
     return (
-      <div style={{ textAlign: 'center' }}>
-        <button onClick={handleReturnToList}>&larr;</button>
+      <div className="text-center">
+        <div className="mt-8 flex justify-center">
+          <button className="bg-red-700 text-white px-4 py-2 rounded" onClick={handleReturnToList}>
+            Retour
+          </button>
+        </div>
         <PokemonDetail pokemon={selectedPokemon} typesData={typesData} language={language} />
       </div>
     );
@@ -130,14 +135,27 @@ const App = () => {
 
   return (
     <>
-      <div style={{ marginTop: '20px', textAlign: 'right', marginRight: '100px' }}>
-        <img src="https://cdn-icons-png.flaticon.com/128/8363/8363075.png" alt="English flag" onClick={() => handleLanguageChange('en')} style={{ marginRight: '10px', width: '30px' }} />
-        <img src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png" alt="French flag" onClick={() => handleLanguageChange('fr')} style={{ marginRight: '10px', width: '30px' }} />
+      <div className="flex justify-end  mt-4 mr-8">
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/8363/8363075.png"
+          alt="English flag"
+          onClick={() => handleLanguageChange('en')}
+          className="mr-4 cursor-pointer w-8"
+        />
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png"
+          alt="French flag"
+          onClick={() => handleLanguageChange('fr')}
+          className="mr-4 cursor-pointer w-8"
+        />
       </div>
-      <img src={logoImage} alt="Logo" className="centered-logo" />
-      <h1 className="app-title">Julie Montoux</h1>
-      <p className="app-subtitle">Projet React</p>
-      <div className="filter-section">
+      <div className='flex justify-center items-center'>
+        <img src={'https://camo.githubusercontent.com/7f1f1e69bef239378a28e8aca7d1d7bd0890d37a7871d01135e2d044da6e2157/68747470733a2f2f692e696d6775722e636f6d2f415975745a4f462e706e67'} alt="Logo" className="w-10/12 mx-0 my-8" />
+      </div>
+      <h1 className="text-3xl font-bold text-center">
+        Julie Montoux ~ Projet React
+      </h1>
+      <div className="flex justify-center items-center bg-red-700 mt-4 space-x-4 my-8 p-8">
         <label>
           <input
             type="radio"
@@ -147,7 +165,7 @@ const App = () => {
             checked={sortOrder === 'asc'}
             onChange={() => setSortOrder('asc')}
           />
-          <label htmlFor="ascending">&uarr;</label>
+          <label htmlFor="ascending" className="cursor-pointer">&uarr;</label>
           <input
             type="radio"
             id="descending"
@@ -156,18 +174,18 @@ const App = () => {
             checked={sortOrder === 'desc'}
             onChange={() => setSortOrder('desc')}
           />
-          <label htmlFor="descending">&darr;</label>
+          <label htmlFor="descending" className="cursor-pointer">&darr;</label>
         </label>
         <label className="sort-label">
-          <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)}>
+          <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)} className="p-2 border rounded">
             <option value="id">ID</option>
-            <option value="name">Name</option>
-            <option value="weight">Weight</option>
-            <option value="height">Height</option>
+            <option value="name">Nom</option>
+            <option value="weight">Poids</option>
+            <option value="height">Taille</option>
           </select>
         </label>
         <label className="filter-label">
-          <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)}>
+          <select value={filterGeneration} onChange={(e) => handleGenerationFilterChange(e.target.value)} className="p-2 border rounded">
             <option value="all">Generation</option>
             {Array.from({ length: 9 }, (_, i) => i + 1).map(generation => (
               <option key={generation} value={generation}>
@@ -177,7 +195,7 @@ const App = () => {
           </select>
         </label>
         <label className="filter-label">
-          <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)}>
+          <select value={filterType} onChange={(e) => handleTypeFilterChange(e.target.value)} className="p-2 border rounded">
             <option value="all">Type</option>
             {typesData.map(type => (
               <option key={type.id} value={type.id}>
@@ -186,12 +204,11 @@ const App = () => {
             ))}
           </select>
         </label>
+      <div className="flex pl-20">
+        <input type="text" value={searchValue} onChange={handleSearchChange} className="p-2 border rounded" placeholder="Rechercher..."/>
       </div>
-      <div className="search-section">
-        <label className="search-icon">&#x1F50D;</label>
-        <input type="text" value={searchValue} onChange={handleSearchChange} />
       </div>
-      <div className="app-container">
+      <div className="grid grid-cols-3 gap-4 mt-4">
         {filteredPokemonList.map(pokemon => (
           <Pokemon key={pokemon.id} pokemon={pokemon} typesData={typesData} language={language} onSelect={handlePokemonClick} />
         ))}
