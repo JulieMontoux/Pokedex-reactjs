@@ -1,4 +1,4 @@
-# [POKEDEX REACT](./pokedex/App.js)
+# POKEDEX REACT
 ## Julie Montoux - B3 CDA (aka la resta)
 
 ## Installation
