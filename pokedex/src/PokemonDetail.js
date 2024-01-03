@@ -3,21 +3,28 @@ import "tailwindcss/tailwind.css";
 import "./PokemonDetail.css";
 
 const PokemonDetail = ({ pokemon, typesData, language }) => {
+  // État local pour gérer l'index de l'image affichée
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Tableau des différentes images du Pokémon
   const images = [pokemon.image, pokemon.image_shiny];
 
+  // Fonction pour changer l'image du Pokémon
   const handleImageChange = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
+  // Fonction pour obtenir le nom d'un type à partir de son identifiant
   const getTypeName = (typeId) => {
     const type = typesData.find((type) => type.id === typeId);
     return type ? type.name[language] : "Inconnu";
   };
 
+  // Rendu du détail du Pokemon
   return (
     <div className="container mx-auto mt-8 p-8 bg-gray-100 rounded shadow-lg">
       <div className="flex justify-center">
+        {/* Image du Pokémon avec possibilité de rotation au clic */}
         <img
           src={images[currentImageIndex]}
           alt={`${pokemon.name[language]} sprite`}
@@ -43,6 +50,7 @@ const PokemonDetail = ({ pokemon, typesData, language }) => {
         <p>Weight: {pokemon.weight}</p>
         <div className="mt-4">
           <div className="grid grid-cols-2 gap-4">
+            {/* Affichage des statistiques du Pokémon avec une barre de progression */}
             {Object.entries(pokemon.stats).map(([statName, statValue]) => (
               <div key={statName} className="text-center">
                 <p className="font-semibold">{statName}</p>
@@ -59,6 +67,7 @@ const PokemonDetail = ({ pokemon, typesData, language }) => {
           </div>
         </div>
         <div className="mt-8 bg-yellow-500">
+          {/* Affichage des informations d'évolution du Pokémon */}
           {pokemon.evolvedFrom && (
             <div className="mt-4">
               <h4 className="text-lg font-bold">Évolution</h4>

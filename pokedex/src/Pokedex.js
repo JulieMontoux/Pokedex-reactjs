@@ -1,16 +1,19 @@
 import React from 'react';
 
 const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
+  // Fonction appelée lors du clic sur un Pokémon
   const handleClick = () => {
     onSelect(pokemon);
   };
 
+  // Fonction pour obtenir les informations sur un type à partir de son identifiant
   const getTypeInfo = (typeId) => {
     const type = typesData.find(type => type.id === typeId);
+
     return type ? { name: type.name[language], image: type.image, backgroundColor: type.backgroundColor } : { name: 'Inconnu', image: 'url_de_l_image_par_defaut', backgroundColor: '#ffffff' };
   };
 
-
+  // Rendu du Pokémon
   return (
     <div className={`flex justify-center items-center bg-gray-100 p-4 rounded cursor-pointer`} onClick={handleClick}>
       <div className='content text-center'>

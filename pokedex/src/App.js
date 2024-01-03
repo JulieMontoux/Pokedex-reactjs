@@ -30,12 +30,16 @@ const App = () => {
           }
         );
 
+        // Récupération des types de Pokémon
         const typesResponse = await axios.get(
           "https://pokedex-api.3rgo.tech/api/types"
         );
+        
+        // Mise à jour des états avec les données récupérées
         setPokemonList(pokemonResponse.data.data);
         setTypesData(typesResponse.data.data);
       } catch (error) {
+        // Gestion des erreurs
         console.error("Error fetching data:", error);
         setError(error);
       }
@@ -44,10 +48,12 @@ const App = () => {
     fetchData();
   }, []);
 
+  // Fonction pour changer la langue
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
   };
 
+  // Fonctions pour gérer les filtres et le tri
   const handleTypeFilterChange = (newFilterType) => {
     setFilterType(newFilterType);
   };
@@ -57,6 +63,7 @@ const App = () => {
   };
 
   const handleSortChange = (newSortBy) => {
+    // Gestion du changement de tri et d'ordre
     if (newSortBy === sortBy) {
       setSortOrder((order) => (order === "asc" ? "desc" : "asc"));
     } else {
@@ -66,14 +73,17 @@ const App = () => {
     setSortBy(newSortBy);
   };
 
+  // Fonction pour gérer le changement dans la barre de recherche
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
   };
 
+  // Fonction pour gérer le clic sur un Pokémon
   const handlePokemonClick = (selectedPokemon) => {
     setSelectedPokemon(selectedPokemon);
   };
 
+  // Fonction pour obtenir la liste triée des Pokémons
   const getSortedPokemonList = () => {
     let sortedList = [...pokemonList];
 
@@ -107,6 +117,7 @@ const App = () => {
     return sortedList;
   };
 
+  // Filtrage de la liste des Pokémon
   const filteredPokemonList = getSortedPokemonList().filter(
     (pokemon) =>
       (filterType === "all" || pokemon.types.includes(parseInt(filterType))) &&
@@ -115,12 +126,14 @@ const App = () => {
       pokemon.name[language].toLowerCase().includes(searchValue.toLowerCase())
   );
 
+  // Fonction pour retourner à la liste des Pokémon
   const handleReturnToList = () => {
     setSelectedPokemon(null);
   };
 
+  // Gestion des cas d'erreur ou de chargement initial
   if (error) {
-    return <p>Error loading data. Please check the console for details.</p>;
+    return <p>Erreur lors du chargement des données. Veuillez vérifier la console pour plus de détails.</p>;
   }
 
   if (!pokemonList || pokemonList.length === 0 || !typesData) {
@@ -136,6 +149,7 @@ const App = () => {
     );
   }
 
+  // Bouton retour lors de la sélection d'un Pokémon
   if (selectedPokemon) {
     return (
       <div className="text-center">
@@ -156,18 +170,19 @@ const App = () => {
     );
   }
 
+  // Affichage de la liste principale des Pokémon
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-end mt-4 mr-8">
         <img
           src="https://cdn-icons-png.flaticon.com/128/8363/8363075.png"
-          alt="English flag"
+          alt="Drapeau anglais"
           onClick={() => handleLanguageChange("en")}
           className="mr-4 cursor-pointer w-8"
         />
         <img
           src="https://cdn-icons-png.flaticon.com/128/5921/5921991.png"
-          alt="French flag"
+          alt="Drapeau français"
           onClick={() => handleLanguageChange("fr")}
           className="mr-4 cursor-pointer w-8"
         />
@@ -233,10 +248,10 @@ const App = () => {
             onChange={(e) => handleGenerationFilterChange(e.target.value)}
             className="p-2 border rounded"
           >
-            <option value="all">Generation</option>
+            <option value="all">Génération</option>
             {Array.from({ length: 9 }, (_, i) => i + 1).map((generation) => (
               <option key={generation} value={generation}>
-                Generation {generation}
+                Génération {generation}
               </option>
             ))}
           </select>
