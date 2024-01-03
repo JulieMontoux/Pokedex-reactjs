@@ -49,7 +49,7 @@ Fiche individuelle :
 
     [x] Possibilité d’alterner entre l’image “shiny” et la “regular”
     image_shiny
-    [en cours] Affichage de l’arbre des évolutions
+    [x] Affichage de l’arbre des évolutions
 
 Divers :
 
