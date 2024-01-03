@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-gh-pages/static/css/main.19fed55b.css",
-    "main.js": "/react-gh-pages/static/js/main.887f4518.js",
-    "static/js/787.4dd77a78.chunk.js": "/react-gh-pages/static/js/787.4dd77a78.chunk.js",
-    "index.html": "/react-gh-pages/index.html",
-    "main.19fed55b.css.map": "/react-gh-pages/static/css/main.19fed55b.css.map",
-    "main.887f4518.js.map": "/react-gh-pages/static/js/main.887f4518.js.map",
-    "787.4dd77a78.chunk.js.map": "/react-gh-pages/static/js/787.4dd77a78.chunk.js.map"
+    "main.css": "/ReactPokedex/static/css/main.19fed55b.css",
+    "main.js": "/ReactPokedex/static/js/main.27dffbde.js",
+    "static/js/787.4dd77a78.chunk.js": "/ReactPokedex/static/js/787.4dd77a78.chunk.js",
+    "index.html": "/ReactPokedex/index.html",
+    "main.19fed55b.css.map": "/ReactPokedex/static/css/main.19fed55b.css.map",
+    "main.27dffbde.js.map": "/ReactPokedex/static/js/main.27dffbde.js.map",
+    "787.4dd77a78.chunk.js.map": "/ReactPokedex/static/js/787.4dd77a78.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.19fed55b.css",
-    "static/js/main.887f4518.js"
+    "static/js/main.27dffbde.js"
   ]
 }
