@@ -15,10 +15,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-  "deploy": "gh-pages -d build",
+    "prebuild": "jekyll build",
+    "deploy": "gh-pages -d jekyll-site/_site",
+  "build": "react-scripts build",
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
