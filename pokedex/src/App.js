@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useTranslation } from 'react-i18next';
 import Pokemon from "./Pokedex.js";
 import PokemonDetail from "./PokemonDetail.js";
 import "tailwindcss/tailwind.css";
 import "./App.css";
 
 const App = () => {
+  const {t, i18n} = useTranslation();
   const [pokemonList, setPokemonList] = useState([]);
   const [typesData, setTypesData] = useState([]);
   const [language, setLanguage] = useState("fr");
@@ -49,7 +51,11 @@ const App = () => {
   }, []);
 
   // Fonction pour changer la langue
-  const handleLanguageChange = (newLanguage) => {
+  const handleLanguageChange = async (newLanguage) => {
+    // Charger les traductions de la nouvelle langue
+    await i18n.changeLanguage(newLanguage);
+  
+    // Mettre à jour l'état avec la nouvelle langue si nécessaire
     setLanguage(newLanguage);
   };
 
@@ -133,7 +139,7 @@ const App = () => {
 
   // Gestion des cas d'erreur ou de chargement initial
   if (error) {
-    return <p>Erreur lors du chargement des données. Veuillez vérifier la console pour plus de détails.</p>;
+    return <p>{t("error")}</p>;
   }
 
   if (!pokemonList || pokemonList.length === 0 || !typesData) {
@@ -158,7 +164,7 @@ const App = () => {
             className="bg-red-700 text-white px-4 py-2 rounded"
             onClick={handleReturnToList}
           >
-            Retour
+            {t("back")}
           </button>
         </div>
         <PokemonDetail
@@ -209,9 +215,11 @@ const App = () => {
               value="asc"
               checked={sortOrder === "asc"}
               onChange={() => setSortOrder("asc")}
+              style={{marginRight: '5px'}}
+
             />
             <label htmlFor="ascending" className="cursor-pointer">
-              &uarr;
+              {t("ascending")}
             </label>
           </label>
           <label>
@@ -222,9 +230,10 @@ const App = () => {
               value="desc"
               checked={sortOrder === "desc"}
               onChange={() => setSortOrder("desc")}
+              style={{marginRight: '5px'}}
             />
             <label htmlFor="descending" className="cursor-pointer">
-              &darr;
+              {t("descending")}
             </label>
           </label>
         </div>
@@ -236,9 +245,9 @@ const App = () => {
             className="p-2 border rounded"
           >
             <option value="id">ID</option>
-            <option value="name">Nom</option>
-            <option value="weight">Poids</option>
-            <option value="height">Taille</option>
+            <option value="name">{t("name")}</option>
+            <option value="weight">{t("weight")}</option>
+            <option value="height">{t("height")}</option>
           </select>
         </div>
 
@@ -248,10 +257,10 @@ const App = () => {
             onChange={(e) => handleGenerationFilterChange(e.target.value)}
             className="p-2 border rounded"
           >
-            <option value="all">Génération</option>
+            <option value="all">{t("generation")}</option>
             {Array.from({ length: 9 }, (_, i) => i + 1).map((generation) => (
               <option key={generation} value={generation}>
-                Génération {generation}
+                {t("generation")} {generation}
               </option>
             ))}
           </select>
@@ -278,7 +287,7 @@ const App = () => {
             value={searchValue}
             onChange={handleSearchChange}
             className="p-2 border rounded mt-4 lg:mt-0"
-            placeholder="Rechercher..."
+            placeholder={t("search")}
           />
         </div>
       </div>

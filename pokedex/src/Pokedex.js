@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
+  const {t} = useTranslation();
+
   // Fonction appelée lors du clic sur un Pokémon
   const handleClick = () => {
     onSelect(pokemon);
@@ -20,7 +23,7 @@ const Pokemon = ({ pokemon, typesData, language, onSelect }) => {
         <p className="text-lg">N°{pokemon.id}</p>
         <img src={pokemon.image} alt={`${pokemon.name[language]} sprite`} className='w-24 h-24 mx-auto mb-2' />
         <h1 className="text-xl font-bold">{pokemon.name[language]}</h1>
-        <p className="text-lg">Generation {pokemon.generation}</p>
+        <p className="text-lg">{t("generation")} {pokemon.generation}</p>
         <div className="flex justify-center mt-2">
           {pokemon.types.map((typeId, index) => (
             <span key={index} className={`text-white px-2 py-1`}>

@@ -1,0 +1,13 @@
+{
+    "error": "Error loading data. Please check the console for more details.",
+    "name": "Name",
+    "weight": "Weight",
+    "height": "Height",
+    "generation": "Generation",
+    "search": "Search ...",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "back": "Back",
+    "evolution": "Evolution",
+    "kind": "Kind(s)"
+}

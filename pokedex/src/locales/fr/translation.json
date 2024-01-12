@@ -1,0 +1,14 @@
+{
+    "error" : "Erreur lors du chargement des données. Veuillez vérifier la console pour plus de détails.",
+    "name": "Nom",
+    "weight": "Poids",
+    "height": "Taille",
+    "generation": "Génération",
+    "search": "Rechercher ...",
+    "ascending": "Croissant",
+    "descending": "Décroissant",
+    "back": "Retour",
+    "evolution": "Évolution",
+    "kind": "Type(s)"
+
+}
